@@ -1,10 +1,19 @@
 package org.rest;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import javax.inject.Inject;
+import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
+import javax.validation.Validator;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -29,54 +38,89 @@ import org.service.TodoService;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class TodoRest {
-	
+
 	@Inject
 	TodoService service;
-	
+
+	@Inject
+	Validator validator;
+
 	@GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String hello() {
-        return "API REST Projeto Quarkus";
-    }
+	@Produces(MediaType.TEXT_PLAIN)
+	public String hello() {
+		return "API REST Projeto Quarkus";
+	}
+
 	/*
 	 * GET
 	 */
 	@GET
 	@Path("/listar")
-	@Operation(summary ="Listar a Fazer", description ="Retorna uma lista de Todo.Class")
+	@Operation(summary = "Listar a Fazer", description = "Retorna uma lista de Todo.Class")
 	@APIResponse(responseCode = "200", description = "lista de tarefas", content = {
-			@Content(mediaType = "application/json",
-			schema = @Schema(implementation = TodoDto.class, type = SchemaType.ARRAY)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = TodoDto.class, type = SchemaType.ARRAY)) })
 	public Response listar() {
-	return Response.status(Response.Status.OK)
-			.entity(service.listar())
-			.build();
+		return Response.status(Response.Status.OK).entity(service.listar()).build();
 	}
+
+	/*
+	 * GET ID
+	 */
+	@GET
+	@Path("/{id}")
+	@Operation(summary = "Buscar Tarefa por ID", description = "Retorna uma tarefa pelo ID")
+	@APIResponse(responseCode = "200", description = "tarefa", content = {
+			@Content(mediaType = "application/json", schema = @Schema(implementation = TodoDto.class, type = SchemaType.ARRAY)) })
+	public Response buscarPorID(@PathParam("id") Long id) {
+		service.buscar(id);
+		return Response.status(Response.Status.OK).entity(service.buscar(id)).build();
+	}
+
 	/*
 	 * POST
 	 */
 	@POST
 	@Path("")
-	@Operation(summary ="Incluir Tarefa", description ="Incluir uma tarefa")
+	@Operation(summary = "Incluir Tarefa", description = "Incluir uma tarefa")
 	@APIResponse(responseCode = "201", description = "lista de tarefas", content = {
-			@Content(mediaType = "application/json",
-			schema = @Schema(implementation = TodoDto.class)) 
-			})
-	public Response incluir (TodoDto todo) {
-		service.inserir(todo);
+			@Content(mediaType = "application/json", schema = @Schema(implementation = TodoDto.class)) })
+	public Response incluir(@Valid TodoDto todo) {
+		Set<ConstraintViolation<TodoDto>> erros = validator.validate(todo);
+		if (erros.isEmpty()) {
+			service.inserir(todo);
+		} else {
+			List<String> listaErros = erros.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
+//			listaErros.forEach(i -> {
+//				System.out.println(i);
+//				});
+			throw new NotFoundException(listaErros.get(0));
+		}
+
 		return Response.status(Response.Status.CREATED).build();
 	}
+
 	/*
-	 *  DELETE
+	 * PUT ID
+	 */
+	@PUT
+	@Path("/{id}")
+	@Operation(summary = "Atualizar por ID", description = "Retorna uma tarefa atualizada")
+	@APIResponse(responseCode = "201", description = "tarefa", content = {
+			@Content(mediaType = "application/json", schema = @Schema(implementation = TodoDto.class)) })
+	public Response update(TodoDto todo) {
+		service.atualizar(todo);
+		return Response.status(Response.Status.OK).build();
+	}
+
+	/*
+	 * DELETE
 	 */
 	@DELETE
 	@Path("/{id}")
-	@Operation(summary ="Excluir Tarefa", description ="excluir uma tarefa")
+	@Operation(summary = "Excluir Tarefa", description = "excluir uma tarefa")
 	@APIResponse(responseCode = "200", description = "exclusão de tarefa", content = {
-			@Content(mediaType = "application/json",
-			schema = @Schema(implementation = TodoDto.class)) 
-			})
-	public Response excluir (@PathParam("id") Long id) {
+			@Content(mediaType = "application/json", schema = @Schema(implementation = TodoDto.class)) })
+	public Response excluir(@PathParam("id") Long id) {
 		service.excluir(id);
 		return Response.status(Response.Status.ACCEPTED).build();
 	}

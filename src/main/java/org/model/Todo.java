@@ -24,10 +24,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name="todo")
 @NamedNativeQueries({
-	@NamedNativeQuery(name="CONSULTAR_TODO", query="SELECT * FROM todo;", resultClass = Todo.class),
+	@NamedNativeQuery(name="CONSULTAR_TODO", query="SELECT id,nome, datacriacao FROM todo order by id", resultClass = Todo.class),
 	@NamedNativeQuery(name="INSERIR_TODO", query = "INSERT INTO todo (nome, dataCriacao) values (:nome, now())"),
-	@NamedNativeQuery(name="EXCLUIR_TODO", query = "DELETE from todo WHERE id = :id")
-	})
+	@NamedNativeQuery(name="EXCLUIR_TODO", query = "DELETE from todo WHERE id = :id"),
+	@NamedNativeQuery(name="CONSULTAR_NOME_REPETIDO_TODO", query="SELECT id,nome, datacriacao FROM todo WHERE nome LIKE :nome", resultClass = Todo.class),
+	@NamedNativeQuery(name="CONSULTAR_TODO_ID", query="SELECT id,nome, datacriacao FROM todo WHERE id = :id", resultClass = Todo.class),
+	@NamedNativeQuery(name="ATUALIZAR_TODO", query="UPDATE todo SET nome = :nome, datacriacao = now()  WHERE id = :id")
+})
 public class Todo implements Serializable {
 	
 	/***/

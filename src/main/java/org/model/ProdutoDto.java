@@ -18,7 +18,6 @@ public class ProdutoDto {
 	Long id;
 	String nome;
 	Double valor;
-	
 	Date dt_Criacao;
 	/*
 	 * Construct

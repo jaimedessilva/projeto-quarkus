@@ -32,35 +32,41 @@
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
-	
-		<!-- Open Api Swagger-->
+
+		<!-- Open Api Swagger -->
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-smallrye-openapi</artifactId>
 		</dependency>
-		
+
 		<!-- OpenTracing rastreamento de Log -->
 		<dependency>
-		    <groupId>io.quarkus</groupId>
-		    <artifactId>quarkus-smallrye-opentracing</artifactId>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-smallrye-opentracing</artifactId>
 		</dependency>
-		
+
+		<!-- Open Tracing JDBC DRIVER -->
+		<dependency>
+			<groupId>io.opentracing.contrib</groupId>
+			<artifactId>opentracing-jdbc</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-resteasy</artifactId>
 		</dependency>
-		
+
 		<!-- RestEasy Json-b -->
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-resteasy-jsonb</artifactId>
 		</dependency>
-		
-<!-- 		<dependency> -->
-<!-- 			<groupId>io.quarkus</groupId> -->
-<!-- 			<artifactId>quarkus-resteasy-mutiny</artifactId> -->
-<!-- 		</dependency> -->
-		
+
+		<!-- <dependency> -->
+		<!-- <groupId>io.quarkus</groupId> -->
+		<!-- <artifactId>quarkus-resteasy-mutiny</artifactId> -->
+		<!-- </dependency> -->
+
 		<!-- Rest JAXB -->
 		<dependency>
 			<groupId>io.quarkus</groupId>
@@ -80,31 +86,31 @@
 			<artifactId>rest-assured</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
-		<!-- Quarkus Validator -->
+
+		<!-- Hibernate Validator -->
 		<dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-hibernate-validator</artifactId>
-        </dependency>
-        
-        <!-- Hibernate ORM-panache -->
-<!--         <dependency> -->
-<!--             <groupId>io.quarkus</groupId> -->
-<!--             <artifactId>quarkus-hibernate-orm-panache</artifactId> -->
-<!--         </dependency> -->
-        
-        <!-- Hibernate ORM -->
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-hibernate-orm</artifactId>
-        </dependency>
-        
-        <!-- JDBC Postgresql -->
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-hibernate-validator</artifactId>
+		</dependency>
+
+		<!-- Hibernate ORM-panache -->
+		<!-- <dependency> -->
+		<!-- <groupId>io.quarkus</groupId> -->
+		<!-- <artifactId>quarkus-hibernate-orm-panache</artifactId> -->
+		<!-- </dependency> -->
+
+		<!-- Hibernate ORM -->
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-hibernate-orm</artifactId>
+		</dependency>
+
+		<!-- JDBC Postgresql -->
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-jdbc-postgresql</artifactId>
 		</dependency>
-		 
+
 	</dependencies>
 	<build>
 		<plugins>

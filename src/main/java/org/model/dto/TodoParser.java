@@ -7,21 +7,25 @@ import org.model.Todo;
  * @author: jaime Dev
  * File: TodoParser.java
  * Data: 30 de out de 2020 **/
+
 public class TodoParser {
-	
+
 	public static TodoParser get() {
 		return new TodoParser();
 	}
+
 	/*
-	 *  Retorna Entidade
+	 * Retorna Entidade
 	 */
-	public Todo entidade (TodoDto dto) {
+	public Todo entidade(TodoDto dto) {
 		Todo entidade = new Todo();
 		entidade.setId(dto.getId());
 		entidade.setNome(dto.getNome());
-		
+		entidade.setDataCriacao(dto.getDataCriacao());
+
 		return entidade;
 	}
+
 	/*
 	 * Retorna DTO
 	 */
@@ -29,7 +33,8 @@ public class TodoParser {
 		TodoDto dto = new TodoDto();
 		dto.setId(entidade.getId());
 		dto.setNome(entidade.getNome());
-		
+		dto.setDataCriacao(entidade.getDataCriacao());
+
 		return dto;
 	}
 

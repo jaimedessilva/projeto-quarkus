@@ -2,6 +2,8 @@ package org.model.dto;
 
 import java.time.LocalDateTime;
 import javax.json.bind.annotation.JsonbDateFormat;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * Projeto: projeto-quarkus
@@ -12,9 +14,9 @@ import javax.json.bind.annotation.JsonbDateFormat;
 public class TodoDto {
 	
 	private Long id;
-	
+	@NotNull(message = "Campo não pode ser Nulo")
+	@NotBlank (message = "Este campo deve conter valores ")
 	private String nome;
-	
 	@JsonbDateFormat("dd/MM/yyyy HH:mm")
 	private LocalDateTime dataCriacao;
 
@@ -47,7 +49,5 @@ public class TodoDto {
 	public void setDataCriacao(LocalDateTime dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
-
-	
 	
 }
